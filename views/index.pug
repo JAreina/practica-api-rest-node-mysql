@@ -24,11 +24,11 @@ block content
 							td
 								a.button.edit(href="/editar/"+d.id) EDITAR
 							td
-								form(method="post", action="/eliminar/" + d.id)
+								form(enctype="application/x-www-form-urlencoded", method="post", action="/eliminar/" + d.id)
 									input(type="hidden", name="_method", value="DELETE")
-									input.button.delete(type="button", value="Eliminar" onclick="eliminar(this)")
+									input.button.delete(type="button", value="Eliminar", onclick="eliminar(this)")
 				script.
-					function eliminar(elemento){
+					function eliminar(input){
 					var deleteOK = confirm("¿ Desea eliminar el registro?");
 					return (deleteOK) ? input.parentNode.submit() : false;
 					}

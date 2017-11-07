@@ -4,9 +4,9 @@ block content
 	section.container
 		h1.header= titulo
 		article.item
-			form.form(method='post', action="/actualizar/"+data[0].id)
+			form.form(enctype="application/x-www-form-urlencoded", method='post', action="/actualizar/"+data[0].id)
 				input(type="hidden", name="_method", value="PUT")
-				input(type="hidden",name="id",value=data[0].id)
+				input(type="hidden", name="id", value=data[0].id)
 				fieldset
 					div
 						input(type="text", name="nombre", placeholder="nombre", value=data[0].nombre, required)
@@ -17,5 +17,5 @@ block content
 					div
 						input(type="text", name="ciudad", placeholder="ciudad", value=data[0].ciudad,required)
 					div
-						input.button.add(type="submit", value="Actualizar")
+						input.button.edit(type="submit", value="Actualizar")
 		a.button.show(href="/") INICIO

@@ -15,14 +15,21 @@ getTodo(req,res,next){
                		      data:data
                		      });
                       }
-
-
              });
-
-
-	}
+}
 
 	getUno(req,res,next){
+        let id = req.params.id;
+         console.log(id);
+
+        um.getUno(id, (err,data)=>{
+	       if(!err){
+			res.render('editar' , {
+				titulo: 'EDITAR USUARIO',
+				data: data
+			});
+		}
+})
 
 	}
 
@@ -30,7 +37,7 @@ getTodo(req,res,next){
    save(req,res,next){
 
    		let usuario = {
-                id:(req.body.id || 0),
+                id: (req.body.id || 0),
          		clave: req.body.password,
          		nombre: req.body.nombre,
          		correo: req.body.correo,
@@ -39,19 +46,30 @@ getTodo(req,res,next){
 
 console.log(usuario);
 
-		um.save(usuario, (err) => {
-			if(!err) {
-				res.redirect('/');
-			} else {
-				return next( new Error('Registro no salvado') );
-			}
-		});
-
-
+um.save(usuario, (err) => {
+	if(!err) {
+		res.redirect('/');
+	} else {
+		return next( new Error('Registro no salvado') );
+	}
+});
 
    }
 
    delete(req,res,next){
+
+		let id = req.params.id;
+          console.log("ID A BORRAR" +id);
+          um.delete(id, (err,data)=>{
+          	if(!err) {
+				res.redirect('/');
+			} else{
+				res.render('error',err)
+			}
+		
+		
+		});
+
 
    }
 
@@ -60,6 +78,16 @@ console.log(usuario);
         	title: 'AGREGAR USUARIO'
         });
    }
+
+
+   error(req, res, next) {
+
+	let err = new Error();
+	err.status = 404;
+	err.statusText = 'NOT FOUND';
+
+	res.render('error', {error: err});
+}
 }
 
 

@@ -5,13 +5,15 @@ const express = require('express'),
 	pug = require('pug'),
 	bodyParser = require('body-parser'),
 	morgan = require('morgan'),
-	restFul = require('express-method-override')('_method'), //variable oculta  _method para usar metodos de rest post, get , put , delete
+	restFul = require('express-method-override')('_method'), //variable oculta en el front de la aplicacion llamada '_method' para usar metodos de rest post, get , put , delete
+
+	routes= require('./routes/usuario-router'),
 	favicon = require('serve-favicon')(`${__dirname}/public/favicon.ico`),
 	publicDir = express.static(`${__dirname}/public`),  // archivos de carpeta publica
-	viewDir = `${__dirname}/public/views`,// directorio de vistas
+	viewDir = `${__dirname}/views`,// directorio de vistas
 	//puerto applicacion
-	port = (process.env.PORT || 2222),
-  routes= require('./routes/usuario-router');
+	port = (process.env.PORT || 2222);
+ 
 
 
 
@@ -22,19 +24,22 @@ let app = express();
 //                            use
 
 
-app.set( 'views', viewDir ); //
-app.set( 'view engine', 'pug' ); // motor de vistas
-app.set( 'port', port );  // puerto  2222
+app
+.set( 'views', viewDir ) //
+.set( 'view engine', 'pug' ) // motor de vistas
+.set( 'port', port ) // puerto  2222
 
 
 // definir middleware
-app.use( bodyParser.json() ); // para manipular el envio en formato json
-app.use( bodyParser.urlencoded({ extended: false }) );//
-app.use( publicDir );
-app.use( favicon );
-app.use(morgan('dev')); // mensajes en la consola de las peticiones al server
-app.use(routes);
-app.use(restFul);
+.use( bodyParser.json() ) // para manipular el envio en formato json
+.use( bodyParser.urlencoded() )//
+
+.use( publicDir )
+.use( favicon )
+.use(morgan('dev')) // mensajes en la consola de las peticiones al server
+.use( restFul )
+.use(routes);
+
 
 
 module.exports= app;
